@@ -7,6 +7,7 @@ name = "pypi"
 "rpi.gpio" = "*"
 django = "*"
 black = "*"
+django-environ = "*"
 
 [dev-packages]
 

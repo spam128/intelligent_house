@@ -1,22 +1,24 @@
 import RPi.GPIO as GPIO
+from django.conf import settings
 
-# numbering to use board pin numbering, check pin numbering 
+# numbering to use board pin numbering, check pin numbering
 # run in terminal pinout
 # TODO move to manage.py or apps.py
-#if not GPIO.getmode() == BPIO.BOARD:
+# if not GPIO.getmode() == BPIO.BOARD:
 #    GPIO.setmode(GPIO.BOARD)
-#GPIO.setup(channel, GPIO.OUT, initial=GPIO.LOW)
+# GPIO.setup(channel, GPIO.OUT, initial=GPIO.LOW)
 # GPIO.output(channel, 1)
 
+
 class PumpDriver:
-    channel=26
-    output=GPIO.LOW
+    channel = settings.WATER_PUMP1_RPI_PIN
+    output = GPIO.LOW
 
     def __init__(self):
         if not GPIO.getmode() == GPIO.BOARD:
             GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.channel, GPIO.OUT, initial=self.output)
-    
+
     def switch(self):
         new_state = GPIO.LOW if self.output == GPIO.HIGH else GPIO.HIGH
         GPIO.output(self.channel, new_state)
@@ -25,4 +27,4 @@ class PumpDriver:
 
     @property
     def state(self):
-        return 'ON' if self.output == GPIO.HIGH else 'OFF' 
+        return "ON" if self.output == GPIO.HIGH else "OFF"

@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class WateringConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'watering'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "watering"
