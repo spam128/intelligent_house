@@ -17,14 +17,27 @@ class PumpDriver:
     def __init__(self):
         if not GPIO.getmode() == GPIO.BOARD:
             GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.channel, GPIO.OUT, initial=self.output)
+        self._pin_off(self.channel)
 
     def switch(self):
         new_state = GPIO.LOW if self.output == GPIO.HIGH else GPIO.HIGH
-        GPIO.output(self.channel, new_state)
+        if new_state == GPIO.LOW:
+            self._pin_off(self.channel)
+        elif new_state == GPIO.HIGH:
+            self._pin_on(self.channel)
+        else:
+            raise AttributeError(
+                f"During switching pin, incorrect new state: {new_state}"
+            )
         self.output = new_state
         return new_state
 
     @property
     def state(self):
         return "ON" if self.output == GPIO.HIGH else "OFF"
+
+    def _pin_on(self, pin_number):
+        GPIO.setup(pin_number, GPIO.OUT, initial=GPIO.HIGH)
+
+    def _pin_off(self, pin_number):
+        GPIO.setup(pin_number, GPIO.IN)
